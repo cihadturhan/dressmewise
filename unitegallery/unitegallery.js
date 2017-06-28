@@ -2364,8 +2364,8 @@ function UGFunctions() {
     }
     if (objData.scrollDir !== "vert")
       return objData.scrollDir;
-    var currentScroll = jQuery(document).scrollTop();
-    /*var scrollPos = objData.scrollOrigin - (objData.lastMouseClientY - objData.scrollStartY);
+    /*var currentScroll = jQuery(document).scrollTop();
+    var scrollPos = objData.scrollOrigin - (objData.lastMouseClientY - objData.scrollStartY);
     if (scrollPos >= 0)
       jQuery(document).scrollTop(scrollPos);*/
     return objData.scrollDir
@@ -11319,7 +11319,7 @@ function UGTouchSliderControl() {
     storeInitTouchData(event)
   }
   function onTouchStart(event) {
-    event.preventDefault();
+    //event.preventDefault();
     g_temp.isDragging = false;
     if (g_parent.isAnimating() == true)
       g_objInner.stop(true, true);
@@ -11351,12 +11351,12 @@ function UGTouchSliderControl() {
     if (g_options.slider_vertical_scroll_ondrag == true){
       scrollDir = g_functions.handleScrollTop(g_temp.storedEventID);
     }
-    if (scrollDir !== "vert"){
+    if (scrollDir === "hor"){
       event.preventDefault();
       handleSliderDrag(event)
     }else{
       //event.stopPropagation();
-        return true;
+      //return true;
     }
 
   }
@@ -11658,7 +11658,6 @@ function UGTouchThumbsControl() {
     g_objStrip.addClass("ug-dragging")
   }
   function onTouchMove(event) {
-    return true;
     if (g_temp.isControlEnabled == false)
       return true;
     if (g_temp.touch_active == false)
@@ -12844,12 +12843,11 @@ function UGZoomSliderControl() {
     var isStored = storeCurrentImage();
     if (g_temp.objImage == undefined || g_temp.objImage.length == 0)
       return true;
-    event.preventDefault();
     if (isImageAnimating() == true)
       g_temp.objImage.stop(true);
-    if (g_temp.isZoomActive == true)
+    if (g_temp.isZoomActive == true){
       checkTouchZoomEnd(event);
-    else
+    }else
       checkTouchZoomStart(event);
     if (g_temp.isZoomActive == true)
       g_temp.isPanActive = false;
@@ -12891,10 +12889,12 @@ function UGZoomSliderControl() {
   function onTouchMove(event) {
     if (g_parent.isCurrentSlideType("image") == false)
       return true;
-    if (g_temp.isZoomActive == true)
+    if (g_temp.isZoomActive == true) {
       doTouchZoom(event);
-    else if (g_temp.isPanActive == true)
+    }else if (g_temp.isPanActive == true) {
       panImage(event)
+      event.preventDefault();
+    }
   }
   function onSliderMouseWheel(event, delta, deltaX, deltaY) {
     if (g_options.slider_zoom_mousewheel == false)
