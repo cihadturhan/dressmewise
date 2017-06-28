@@ -2365,9 +2365,9 @@ function UGFunctions() {
     if (objData.scrollDir !== "vert")
       return objData.scrollDir;
     var currentScroll = jQuery(document).scrollTop();
-    var scrollPos = objData.scrollOrigin - (objData.lastMouseClientY - objData.scrollStartY);
+    /*var scrollPos = objData.scrollOrigin - (objData.lastMouseClientY - objData.scrollStartY);
     if (scrollPos >= 0)
-      jQuery(document).scrollTop(scrollPos);
+      jQuery(document).scrollTop(scrollPos);*/
     return objData.scrollDir
   }
   ;
@@ -11334,6 +11334,7 @@ function UGTouchSliderControl() {
     enableTouchActive("1", event)
   }
   function onTouchMove(event) {
+
     if (g_temp.touch_active == false)
       return true;
     if (event.buttons == 0) {
@@ -11342,15 +11343,22 @@ function UGTouchSliderControl() {
       return true
     }
     g_functions.updateStoredEventData(event, g_temp.storedEventID);
-    event.preventDefault();
+
     var mousePos = g_functions.getMousePosition(event);
     g_temp.lastMouseX = mousePos.pageX;
     g_temp.lastMouseY = mousePos.pageY;
     var scrollDir = null;
-    if (g_options.slider_vertical_scroll_ondrag == true)
+    if (g_options.slider_vertical_scroll_ondrag == true){
       scrollDir = g_functions.handleScrollTop(g_temp.storedEventID);
-    if (scrollDir !== "vert")
+    }
+    if (scrollDir !== "vert"){
+      event.preventDefault();
       handleSliderDrag(event)
+    }else{
+      //event.stopPropagation();
+        return true;
+    }
+
   }
   function onTouchEnd(event) {
     var arrTouches = g_functions.getArrTouches(event);
@@ -11650,6 +11658,7 @@ function UGTouchThumbsControl() {
     g_objStrip.addClass("ug-dragging")
   }
   function onTouchMove(event) {
+    return true;
     if (g_temp.isControlEnabled == false)
       return true;
     if (g_temp.touch_active == false)
