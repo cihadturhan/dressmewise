@@ -1,0 +1,32 @@
+.product-image-container{
+	float: left;
+}
+
+.product-thumbs{
+	clear: both;
+	overflow: hidden;
+	margin: 0 -2px;
+}
+
+.product-thumb {
+	display: inline-block;
+	margin: 4px 2px;	
+}
+
+.product-thumb img{
+	max-width: 100%;
+}
+
+.products-grid .product-image-container{
+	float: none;
+}
+
+.product-thumb a{
+	border: 1px solid #e7e7e6;
+	display: block;
+}
+
+.product-thumb a.active,
+.product-thumb a:hover{
+	border: 1px solid #000;
+}
